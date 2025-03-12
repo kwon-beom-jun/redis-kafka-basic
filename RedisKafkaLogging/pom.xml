@@ -1,0 +1,101 @@
+<!-- pom.xml: Maven 프로젝트 설정 파일 -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+                             http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <!-- Spring Boot Parent POM: Spring Boot 3.3.9 사용 -->
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.3.9</version>  <!-- Spring Boot 버전 -->
+    <relativePath/>           <!-- lookup parent from repository -->
+  </parent>
+  
+  <groupId>com.example</groupId>
+  <artifactId>redis-kafka-logging</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>RedisKafkaLogging</name>
+  <description>Spring Boot Kafka-Redis 실시간 이벤트 로깅 예제</description>
+  <packaging>jar</packaging>
+  
+  <!-- Java 컴파일 버전 -->
+  <properties>
+    <java.version>17</java.version>         <!-- Java 17 사용 -->
+    <spring.kafka.version>3.0.11</spring.kafka.version> <!-- (선택) Kafka 버전 -->
+  </properties>
+  
+  <dependencies>
+  
+  	<!-- Java 8 날짜/시간 API 처리를 위한 jackson 모듈 -->
+	<dependency>
+	  <groupId>com.fasterxml.jackson.datatype</groupId>
+	  <artifactId>jackson-datatype-jsr310</artifactId>
+	</dependency>
+
+  
+    <!-- Spring Web 스타터: 내장 톰캣, Spring MVC 등을 포함 (REST API용) -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    
+    <!-- Spring Data JPA 스타터: JPA와 하이버네이트 사용 -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+    
+    <!-- PostgreSQL JDBC 드라이버 -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <scope>runtime</scope> <!-- 실행시에만 필요 -->
+    </dependency>
+    
+	<dependency>
+		<groupId>org.springframework.kafka</groupId>
+		<artifactId>spring-kafka</artifactId>
+	</dependency>
+    
+    <!-- Spring Data Redis: Redis와의 통신을 위한 스타터 (Lettuce 클라이언트 사용) -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-redis</artifactId>
+    </dependency>
+    
+    <!-- Lombok (선택): Getter/Setter 자동생성 등 편의 기능. 
+         사용 시 @Data 등의 애노테이션으로 보일러플레이트 코드를 줄일 수 있음 -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <optional>true</optional> <!-- 컴파일러에서만 사용 -->
+    </dependency>
+    
+    <!-- Spring Boot Test (선택): 단위 테스트/통합 테스트용 -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+      <!-- Kafka 테스트용 라이브러리 포함 (주로 @EmbeddedKafka 등 사용 가능) -->
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.kafka</groupId>
+          <artifactId>kafka-clients</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
+  
+  <build>
+    <plugins>
+      <!-- Spring Boot Maven Plugin: 패키징 및 실행을 도와줌 -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <!-- 실행 가능한 JAR 생성 및 Maven goal (spring-boot:run) 사용 가능 -->
+      </plugin>
+    </plugins>
+  </build>
+</project>
